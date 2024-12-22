@@ -139,6 +139,55 @@ Example:
 }
 ```
 
+### GET /users/profile
+
+#### Description
+This endpoint is used to get the profile of the authenticated user.
+
+#### Responses
+200 OK
+Description: User profile successfully retrieved.
+Body: A JSON object containing the user details.
+Example:
+```json
+{
+    "user": {
+        "_id": "60d0fe4f5311236168a109ca",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "john.doe@example.com"
+    }
+}
+```
+
+401 Unauthorized
+Description: Unauthorized access.
+Body: A JSON object containing the error message.
+Example:
+```json
+{
+    "message": "Unauthorized Token not Found"
+}
+```
+
+### POST /users/logout
+
+#### Description
+This endpoint is used to log out an existing user.
+
+#### Responses
+200 OK
+Description: User successfully logged out.
+Body: A JSON object containing the success message.
+Example:
+```json
+{
+    "message": "Logged Out Successfully"
+}
+```
+
 ## Setup
 To set up the project, follow these steps:
 

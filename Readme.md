@@ -188,6 +188,41 @@ Example:
 }
 ```
 
+### POST /captains/register
+
+#### Description
+This endpoint is used to register a new captain.
+
+#### Request Body
+The request body must be a JSON object with the following fields:
+- `fullname.firstname` (string, required): The first name of the captain. Must be at least 3 characters long.
+- `fullname.lastname` (string, required): The last name of the captain.
+- `email` (string, required): The email address of the captain. Must be a valid email format.
+- `password` (string, required): The password for the captain. Must be at least 5 characters long.
+- `vehicle` (object)
+    - `vehicle.color` (string, required): The color of the vehicle. Must be at least 3 characters long.
+    - `vehicle.plate` (string, required): The plate number of the vehicle. Must be at least 3 characters long.
+    - `vehicle.capacity` (number, required): The capacity of the vehicle. Must be at least 1.
+    - `vehicle.vehicleType` (string, required): The type of the vehicle. Must be one of 'Bike', 'Car', or 'Auto-Riksha'.
+
+Example:
+```json
+{
+    "fullname": {
+        "firstname": "Jane",
+        "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "password": "password123",
+    "vehicle": {
+        "color": "Red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicleType": "Car"
+    }
+}
+```
+
 ## Setup
 To set up the project, follow these steps:
 

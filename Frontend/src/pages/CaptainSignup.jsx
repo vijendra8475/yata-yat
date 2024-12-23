@@ -40,7 +40,7 @@ const CaptainSignup = () => {
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
             type="text"
-            className='bg-[#eeeeee] rounded w-full py-2 px-4 border text-lg placeholder:text-base w-1/2'
+            className='bg-[#eeeeee] rounded py-2 px-4 border text-lg placeholder:text-base w-1/2'
             name="firstname" 
             required 
             id="" 
@@ -50,7 +50,7 @@ const CaptainSignup = () => {
             type="text"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
-            className='bg-[#eeeeee] rounded w-full py-2 px-4 border text-lg placeholder:text-base w-1/2'
+            className='bg-[#eeeeee] rounded py-2 px-4 border text-lg placeholder:text-base w-1/2'
             name="lastname" 
             required 
             id="" 

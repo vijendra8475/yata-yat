@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom';
+import UserContext from '../context/userContext';
 
 const UberSignup = () => {
 
@@ -9,16 +11,27 @@ const UberSignup = () => {
   const [lastname, setLastname] = useState('');
   const [userData, setUserData] = useState({})
 
-  const submitHandler = (event) => {
+  const navigate = useNavigate();
+
+  const { user, setUser } = React.useContext(UserContext)
+
+  const submitHandler = async (event) => {
       event.preventDefault();
-      setUserData({
-          userName : {
-              firstname : firstname,
-              lastname : lastname
+      const newUser = {
+        fullName : {
+          firstname : firstname,
+          lastname : lastname
           },
           email : email,
           password : password
-      });
+      }
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, newUser);
+
+      if(response.status === 201){
+        const data = response.data;
+      }
+
       // console.log(userData);
       setEmail('');
       setFirstname('');
@@ -40,7 +53,7 @@ return (
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
           type="text"
-          className='bg-[#eeeeee] rounded w-full py-2 px-4 border text-lg placeholder:text-base w-1/2'
+          className='bg-[#eeeeee] rounde  py-2 px-4 border text-lg placeholder:text-base w-1/2'
           name="firstname" 
           required 
           id="" 
@@ -50,7 +63,7 @@ return (
           type="text"
           value={lastname}
           onChange={(e) => setLastname(e.target.value)}
-          className='bg-[#eeeeee] rounded w-full py-2 px-4 border text-lg placeholder:text-base w-1/2'
+          className='bg-[#eeeeee] rounded  py-2 px-4 border text-lg placeholder:text-base w-1/2'
           name="lastname" 
           required 
           id="" 

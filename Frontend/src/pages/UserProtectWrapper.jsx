@@ -9,7 +9,7 @@ const UserProtectWrapper = ({ children }) => {
     const token = localStorage.getItem('token');
     const  navigate = useNavigate();
 
-    console.log(token);
+    // console.log(token);
     
 
     if(!token) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import userContext, { UserDataContext } from '../context/userContext'
 import { useContext } from 'react'
@@ -12,9 +12,12 @@ const UserProtectWrapper = ({ children }) => {
     // console.log(token);
     
 
-    if(!token) {
+    useEffect(() => {
+      if(!token) {
         navigate('/login');
-    }
+      }
+    }, [token])
+    
 
     
   return (

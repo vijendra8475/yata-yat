@@ -71,7 +71,6 @@ return (
           onChange={(e) => setLastname(e.target.value)}
           className='bg-[#eeeeee] rounded  py-2 px-4 border text-lg placeholder:text-base w-1/2'
           name="lastname" 
-          required 
           id="" 
           placeholder='Last name'
           />

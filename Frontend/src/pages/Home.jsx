@@ -3,6 +3,8 @@ import 'remixicon/fonts/remixicon.css'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import LocationSearchPanel from '../components/LocationSearchPanel'
+import VehiclePanel from '../components/VehiclePanel'
+import ConfirmRide from '../components/ConfirmRide'
 
 
 const Home = () => {
@@ -12,6 +14,11 @@ const Home = () => {
   const [panelOpen, setPanelOpen] = useState(false);
   const panelRef = useRef(null)
   const arrowRef = useRef(null)
+  const addressRef = useRef(null)
+  const vehiclePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
+  const [vehiclePanel, setVehiclePanel] = useState(false)
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false)
 
 
   const submitHandler = (e) => {
@@ -22,7 +29,7 @@ const Home = () => {
     if(panelOpen){
       gsap.to(panelRef.current,{
         height : '77%',
-        padding : '0 24px 24px',
+        padding : '0 24px 18px',
         duration : 0.5,
         display : 'block',
       })
@@ -41,8 +48,49 @@ const Home = () => {
         display : 'none',
         duration : 0.5
       })
+
+      setVehiclePanel(false);
     }
   },[panelOpen])
+
+  useGSAP(() => {
+    
+      if(vehiclePanel){
+        gsap.to(vehiclePanelRef.current,{
+          width : '50%',
+          display : 'flex'
+        })
+        gsap.to(addressRef.current,{
+          width : '50%'
+        })
+      }
+      else{
+        gsap.to(vehiclePanelRef.current,{
+          width : '0%',
+          display : 'none'
+        })
+        gsap.to(addressRef.current,{
+          width : '100%'
+        })
+      }
+  },[vehiclePanel])
+
+
+  useGSAP(() => {
+    
+      if(vehiclePanel){
+        gsap.to(confirmRidePanelRef.current,{
+          width : '100%',
+          display : 'flex'
+        })
+      }
+      else{
+        gsap.to(confirmRidePanelRef.current,{
+          width : '0%',
+          display : 'none'
+        })
+      }
+  },[confirmRidePanel])
 
 
   return (
@@ -68,11 +116,23 @@ const Home = () => {
           </form>
         </div>
         <div ref={panelRef} className=' h-0 bg-white overflow-auto'>
-          <LocationSearchPanel />
+          <div className='flex h-full items-start justify-between gap-8 relative '>
+            <div ref={addressRef} className='w-full h-full overflow-y-auto' >
+              <LocationSearchPanel vehiclePanel={vehiclePanel}  setVehiclePanel={setVehiclePanel} vehiclePanelRef={vehiclePanelRef}/>
+            </div>
+
+
+            <div ref={vehiclePanelRef} className=' w-0 h-full flex flex-col items-center justify-between gap-4 py-6'>
+              <VehiclePanel  setConfirmRidePanel={setConfirmRidePanel}/>
+            </div>
+            <div ref={confirmRidePanelRef} className=' w-full  absolute top-0 left-0  bg-white h-full flex flex-col items-center justify-between gap-4 py-6'>
+              <ConfirmRide />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  )
+  ) 
 }
 
 export default Home

@@ -1,27 +1,20 @@
 import React from 'react'
 
-const ConfirmRide = ( props ) => {
+const LookingForDriver =  (props) => {
+
+
   return (
-    <div className='flex h-full w-full items-center justify-between overflow-hidden gap-10'>
-        <div className='flex flex-col p-5 bg-gray-100 rounded-t-3xl w-3/5 h-full g-4'>
-            <div className="h-1/5 border-b-2 w-full bg-white rounded-t-xl flex flex-col items-center gap-5 justify-center">
+    <div className='flex flex-col h-full w-full items-center justify-between overflow-auto gap-10'>
+        <div className='flex flex-col p-5 bg-gray-100 rounded-3xl w-full h-full g-4 overflow-auto'>
+            <div className="h-1/5 border-b-2 w-full bg-white rounded-t-xl flex flex-col items-center py-4 gap-5 justify-center">
                 <div className="line w-32 h-2 bg-gray-400 rounded-full"></div>
-                <h2 className='text-black font-semibold text-4xl '>Confirm your Ride</h2>
+                <h2 className='text-black font-semibold text-4xl '>Looking for a Driver</h2>
             </div>
 
-            <img className='h-4/5 object-cover object-center bg-white' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1591275848/assets/57/348090-0115-46b7-96b3-b9085e736876/original/Comfort_Vehicle_list.png" alt="" />
+            <img className='bg-white h-3/5 object-cover object-center' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1591275848/assets/57/348090-0115-46b7-96b3-b9085e736876/original/Comfort_Vehicle_list.png" alt="" />
 
 
-        </div>
-
-
-        <div className="right p-5 flex flex-col items-start gap-1 bg-gray-100 w-2/5 h-full">
-            <div className="h-1/5 border-b-2 w-full bg-white rounded-t-2xl flex flex-col items-center gap-5 justify-center">
-                <div className="line w-32 h-2 bg-gray-400 rounded-full"></div>
-                <h2 className='text-black font-semibold text-3xl '>Ride Deatils</h2>
-            </div>
-
-            <div className="ride-info h-4/5 w-full bg-white rounded-b-xl px-4 py-8 flex flex-col gap-4 relative overflow-y-auto">
+            <div className="ride-info h-4/5 w-full bg-white rounded-b-xl px-4 py-8 flex flex-col gap-4 relative">
                 <div className="rounded-xl from flex items-center py-4 px-8 bg-gray-50 gap-12">
                     <h1 className='h-16 w-16 bg-gray-300 rounded-full text-3xl flex items-center justify-center'><i className="ri-map-pin-2-fill"></i></h1>
                     <div className="info flex flex-col items-start w-3/5">
@@ -30,7 +23,7 @@ const ConfirmRide = ( props ) => {
                     </div>
                 </div>
 
-                <div className="line w-[15px] h-[90px] bg-gray-300 rounded-full absolute top-[105px] left-[73px]"></div>
+                <div className="line w-[15px] h-[60px] bg-gray-300 rounded-full absolute top-[105px] left-[73px]"></div>
 
                 <div className="rounded-xl from flex items-center py-4 px-8 bg-gray-50 gap-12">
                     <h1 className='h-16 w-16 bg-gray-300 rounded-full text-3xl flex items-center justify-center'><i className="ri-checkbox-blank-fill"></i></h1>
@@ -47,7 +40,8 @@ const ConfirmRide = ( props ) => {
                     </div>
                 </div>
 
-                <button onClick={() => props.setVehicleFound(true)} className='py-4 w-full bg-black text-white text-2xl font-bold rounded-xl'>Confirm</button>
+                <button onDoubleClick={() => props.setRideAccepted(true)} className='bg-[black] text-white w-full py-3 text-3xl rounded-2xl font-bold hover:bg-[red]'>Cancel Ride</button>
+
             </div>
 
         </div>
@@ -55,4 +49,4 @@ const ConfirmRide = ( props ) => {
   )
 }
 
-export default ConfirmRide
+export default LookingForDriver

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { UserDataContext } from '../context/userContext'
 import { useNavigate } from 'react-router-dom'
@@ -12,10 +12,21 @@ const UberLogin = () => {
   const { user, setUser } = React.useContext(UserDataContext);
   const navigate = useNavigate();
 
+  const temptoken = localStorage.getItem('token');
+  useEffect(() => {
+    if(temptoken){
+      navigate('/home');
+    }
+  }, [temptoken])
+  
+  
+
   const submitHandler = async (event) => {
 
     event.preventDefault();
     
+
+
         const userData = {
           email: email,
           password: password

@@ -7,9 +7,12 @@ import VehiclePanel from '../components/VehiclePanel'
 import ConfirmRide from '../components/ConfirmRide'
 import WaitForDriver from '../components/WaitForDriver'
 import LookingForDriver from '../components/LookingForDriver'
+import { useNavigate } from 'react-router-dom'
 
 
 const Home = () => {
+
+  const navigate = useNavigate();
 
   const [pickup, setPickup] = useState('')
   const [destination, setDestination] = useState('');
@@ -18,6 +21,7 @@ const Home = () => {
   const arrowRef = useRef(null)
   const addressRef = useRef(null)
   const vehiclePanelRef = useRef(null)
+  const logoutRef = useRef(null)
   const confirmRidePanelRef = useRef(null)
   const vehicleFoundRef = useRef(null)
   const [vehiclePanel, setVehiclePanel] = useState(false)
@@ -44,6 +48,10 @@ const Home = () => {
         display : 'block',
         duration : 0.5
       })
+
+      gsap.to(logoutRef.current,{
+        top : '20px'
+      })
     }
     else{
       gsap.to(panelRef.current,{
@@ -54,6 +62,10 @@ const Home = () => {
       gsap.to(arrowRef.current,{
         display : 'none',
         duration : 0.5
+      })
+
+      gsap.to(logoutRef.current,{
+        top : '2.25rem'
       })
 
       setVehiclePanel(false);
@@ -159,9 +171,15 @@ const Home = () => {
     }
   }
 
+  const logoutHandler = async () => {
+    await localStorage.removeItem('token');
+    navigate('/login');
+  }
+
 
   return (
     <div className='h-screen w-screen relative overflow-x-hidden'>
+      <button onClick={() => logoutHandler()} ref={logoutRef} className='z-30 bg-black text-xl py-2 px-5 font-semibold rounded-xl text-white absolute top-9 right-10'>Log out</button>
       <img className='w-24 mb-10 absolute top-8 left-8' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
       <div className='w-full h-full' >
         <img

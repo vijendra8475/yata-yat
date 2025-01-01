@@ -13,11 +13,11 @@ const UberLogin = () => {
   const navigate = useNavigate();
 
   const temptoken = localStorage.getItem('token');
-  useEffect(() => {
-    if(temptoken){
-      navigate('/home');
-    }
-  }, [temptoken])
+  // useEffect(() => {
+  //   if(temptoken){
+  //     navigate('/home');
+  //   }
+  // }, [temptoken])
   
   
 

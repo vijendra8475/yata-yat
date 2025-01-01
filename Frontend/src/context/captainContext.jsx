@@ -1,41 +1,31 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 
-// Create the context
 export const CaptainDataContext = createContext();
 
-// Create a provider component
 const CaptainContext = ({ children }) => {
-    const [captain, setCaptain] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [ captain, setCaptain ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ error, setError ] = useState(null);
 
     const updateCaptain = (captainData) => {
         setCaptain(captainData);
-    }
+    };
 
-
-    // Context value
     const value = {
         captain,
         setCaptain,
-        isAuthenticated,
-        loading,
-        };
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        updateCaptain
+    };
 
-        return (
+    return (
         <CaptainDataContext.Provider value={value}>
             {children}
         </CaptainDataContext.Provider>
-        );
-    };
+    );
+};
 
-    // Custom hook for using captain context
-    export const useCaptain = () => {
-        const context = useContext(CaptainContext);
-        if (!context) {
-        throw new Error('useCaptain must be used within a CaptainProvider');
-        }
-        return context;
-    };
-
-    export default CaptainContext;
+export default CaptainContext;

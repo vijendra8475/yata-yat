@@ -1,22 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { CaptainDataContext } from '../context/captainContext';
 
 const CaptainLogin = () => {
 
-   const temptoken = localStorage.getItem('token');
-    useEffect(() => {
-      if(temptoken){
-        navigate('/captain-home');
-      }
-    }, [temptoken])
+   
     
 
 
       const [email, setEmail] = useState('')
       const [password, setPassword] = useState('');
 
+      const { captain, setCaptain } = React.useContext(CaptainDataContext)
+
       const navigate = useNavigate();
+
+      // const temptoken = localStorage.getItem('token');
+      // useEffect(() => {
+      //   if(temptoken){
+      //     navigate('/captain-home');
+      //   }
+      // }, [temptoken])
+
     
       const submitHandler = async (event) => {
     
@@ -25,17 +31,22 @@ const CaptainLogin = () => {
               email : email,
               password : password
             }
-            setEmail('');
-            setPassword('');
             // console.log(userData);
 
             const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captainData );
 
             if(response.status === 201){
               const data = response.data;
+              
+              console.log(data);
+              setCaptain(data.captain)
               localStorage.setItem('token',data.token)
               navigate('/captain-home');
             }
+
+
+            setEmail('');
+            setPassword('');
       }
   return (
     <div className='p-8 h-screen w-[100dvw] flex flex-col justify-between'>

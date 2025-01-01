@@ -1,16 +1,64 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import RidePopup from '../components/RidePopup'
 import { useGSAP } from '@gsap/react'
+import { CaptainDataContext } from '../context/captainContext'
 import gsap from 'gsap'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
+import { useNavigate } from 'react-router-dom'
+import CaptainDetails from '../components/CaptainDetails'
+import { SocketContext } from '../context/socketContext'
 
 const CaptainHome = () => {
+
+  const navigate = useNavigate();
 
   const ridePopUpRef = useRef(null);
   const [ridePopup, setRidePopup] = useState(true);
 
   const confirmRidePopupRef = useRef(null)
   const [confirmRidePopUp, setConfirmRidePopUp] = useState(false)
+
+  const { socket } = useContext(SocketContext);
+  const { captain } = useContext( CaptainDataContext )
+  // console.log(captain);
+
+  useEffect(() => {
+    socket.emit('join', {
+      userId : captain._id,
+      userType : 'captain'
+    })
+
+    const updateLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+
+          console.log(
+            captain._id,
+            {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          );
+          
+
+          socket.emit('update-location-captain', {
+            userId: captain._id,
+            location : {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          });
+        });
+      }
+    };
+
+    const locationInterval = setInterval(updateLocation, 10000);
+    updateLocation()
+    // return () => clearInterval(locationInterval);
+    
+  }, [])
+  
+  
 
 
   useGSAP(() => {
@@ -44,8 +92,18 @@ const CaptainHome = () => {
   },[confirmRidePopUp])
 
 
+
+  const logoutHandler = async () => {
+    await localStorage.removeItem('token');
+    navigate('/captain-login');
+  }
+
+
+
+
   return (
     <div className='h-screen overflow-hidden flex justify-between flex-col p-8 w-full bg-[url(https://simonpan.com/wp-content/themes/sp_portfolio/assets/uber-challenge.jpg)]'>
+      <button onClick={() => logoutHandler()} className='z-30 bg-black text-xl py-2 px-5 font-semibold rounded-xl text-white absolute top-9 right-10'>Log out</button>
       <div className='w-full h-10'><img className='w-24 mb-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" /></div>
       <div className="dashboard h-[calc(100%-2.75rem)] overflow-hidden relative p-10 w-full bg-opacity-30 rounded-3xl bg-black flex items-center justify-between gap-20 ">
 
@@ -55,43 +113,7 @@ const CaptainHome = () => {
             <h2 className='text-gary-600 font-semibold text-2xl'>Driver Info.</h2>
           </div>
 
-          <div className="body bg-white h-[calc(100%-5.25rem)] py-4 px-6 w-full rounded-b-xl flex flex-col items-center justify-evenly">
-            <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" className='w-2/3' alt="" />
-
-            <div className="info w-full flex flex-col items-center mt-10">
-              <div className='w-full  flex items-center justify-between'>
-
-                <div  className='flex flex-col'>
-                  <h1 className='text-3xl font-bold'>Santh</h1>
-                  <div className='semibold text-yellow-400 flex items-center'><i className="ri-star-s-fill text-4xl"></i> <h2 className='text-xl text-black font-semibold'>- 4.8</h2></div>
-                </div>
-                <div  className='flex flex-col'>
-                  <h1 className='text-2xl font-bold'>$290</h1>
-                  <h2 className='text-lg font-semibold text-gray-400'>Earned</h2>
-                </div>
-              </div>
-            </div>
-
-            <div className="box flex items-center justify-around rounded-xl bg-slate-200 w-full mt-10 h-40 px-4">
-              <div className="small-box flex items-center flex-col">
-                <i className="ri-speed-up-line  text-5xl"></i>
-                 <h2 className='text-2xl font-semibold mt-2'>25</h2>
-                <h3 className='text-gray-600 font-semibold text-base'>Kms runs</h3>
-              </div>
-
-              <div className="small-box flex items-center flex-col">
-              <i className="ri-timer-2-line text-5xl"></i>
-                 <h2 className='text-2xl font-semibold mt-2'>2.3</h2>
-                <h3 className='text-gray-600 font-semibold text-base'>Hours drive</h3>
-              </div>
-
-              <div className="small-box flex items-center flex-col">
-              <i className="ri-money-rupee-circle-line text-5xl"></i>
-                <h2 className='text-2xl font-semibold mt-2'>1282.20</h2>
-                <h3 className='text-gray-600 font-semibold text-base'>Earned</h3>
-              </div>
-            </div>
-          </div>
+          < CaptainDetails />
         </div>
 
         <div className="middle rounded-t-3xl w-1/3 h-full bg-slate-300 rounded-3xl p-5 flex flex-col justify-between items-center">

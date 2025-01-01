@@ -27,7 +27,7 @@ const CaptainSignup = () => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        const captainData = ({
+        const captainData = {
             fullname : {
                 firstname : firstname,
                 lastname : lastname
@@ -40,8 +40,20 @@ const CaptainSignup = () => {
               capacity : vehicleCapacity,
               vehicleType :  vehicleType
             }
-        });
-        console.log(captainData);
+        };
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData );
+
+
+        if(response.status === 201){
+          const data = response.data;
+          setCaptain(data.captain)
+          localStorage.setItem('token',data.token)
+          navigate('/captain-home');
+          alert("Registration Successfull");
+        }
+
+  
         setEmail('');
         setFirstname('');
         setPassword('');
@@ -50,16 +62,6 @@ const CaptainSignup = () => {
         setVehicleCapacity('');
         setVehiclePlate('');
         setVehicleType('');
-
-
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData );
-        if(response.status === 201){
-          alert("Registration Successfull");
-          const data = response.data;
-          setCaptain(data.captain)
-          localStorage.setItem('token',data.token)
-          navigate('/captain-home');
-        }
     }
 
 
@@ -139,7 +141,7 @@ const CaptainSignup = () => {
             name="vehiclePlate" 
             required 
             id="" 
-            placeholder='Vehicle Color'
+            placeholder='Vehicle Plate'
             />
             </div>
         <div className="flex gap-4 mb-7">

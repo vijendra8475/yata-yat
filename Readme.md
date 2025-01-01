@@ -346,6 +346,18 @@ Example:
 }
 ```
 
+### GET /rides/get-fare
+
+#### Description
+This endpoint is used to get the fare estimate for a ride based on the pickup and destination locations.
+
+#### Request Parameters
+The request must include the following query parameters:
+- `pickup` (string, required): The pickup location. Must be at least 3 characters long.
+- `destination` (string, required): The destination location. Must be at least 3 characters long.
+
+Example:
+
 ## Setup
 To set up the project, follow these steps:
 

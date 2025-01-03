@@ -5,37 +5,25 @@ import { CaptainDataContext } from '../context/captainContext';
 
 const CaptainLogin = () => {
 
-   
-    
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
 
-
-      const [email, setEmail] = useState('')
-      const [password, setPassword] = useState('');
-
-      const { captain, setCaptain } = React.useContext(CaptainDataContext)
-
-      const navigate = useNavigate();
-
-      // const temptoken = localStorage.getItem('token');
-      // useEffect(() => {
-      //   if(temptoken){
-      //     navigate('/captain-home');
-      //   }
-      // }, [temptoken])
+  const { captain, setCaptain } = React.useContext(CaptainDataContext)
+  const navigate = useNavigate()
 
     
       const submitHandler = async (event) => {
     
         event.preventDefault();
-            const captainData = {
+            const captain = {
               email : email,
               password : password
             }
             // console.log(userData);
 
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captainData );
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain );
 
-            if(response.status === 201){
+            if(response.status === 200){
               const data = response.data;
               
               console.log(data);
@@ -43,7 +31,6 @@ const CaptainLogin = () => {
               localStorage.setItem('token',data.token)
               navigate('/captain-home');
             }
-
 
             setEmail('');
             setPassword('');

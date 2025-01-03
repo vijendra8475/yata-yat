@@ -44,31 +44,33 @@ module.exports.loginCaptain = async (req, res, next) => {
     }
 
     const { email, password } = req.body;
+
     const captain = await captainModel.findOne({ email }).select('+password');
 
     if (!captain) {
-        return res.status(400).json({ message: 'Captain not found' });
+        return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     const isMatch = await captain.comparePassword(password);
+
     if (!isMatch) {
-        return res.status(400).json({ message: "Incorrect Password" });
+        return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     const token = captain.generateAuthToken();
 
     res.cookie('token', token);
 
-    res.status(201).json({ token, captain });
+    res.status(200).json({ token, captain });
 }
 
 module.exports.getCaptainProfile = async (req, res, next) => {
-    res.status(201).json({ captain: req.captain });
+    res.status(200).json({ captain: req.captain });
 }
 
 module.exports.logoutCaptain = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
     await blackListTokenModel.create({ token });
     res.clearCookie('token');
-    res.status(201).json({ message: "Captain Logged Out" });
+    res.status(200).json({ message: "Captain Logged Out" });
 }

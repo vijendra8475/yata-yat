@@ -220,7 +220,7 @@ const Home = () => {
       
     }
     catch(err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 

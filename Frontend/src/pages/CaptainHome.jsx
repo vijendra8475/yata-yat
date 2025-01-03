@@ -30,27 +30,27 @@ const CaptainHome = () => {
 
     const updateLocation = () => {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
+          navigator.geolocation.getCurrentPosition(position => {
 
-          console.log(
-            captain._id,
-            {
-              ltd: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          );
-          
+            console.log({
+              userId: captain._id,
+                  location: {
+                      ltd: position.coords.latitude,
+                      lng: position.coords.longitude
+                  }
+            });
+            
 
-          socket.emit('update-location-captain', {
-            userId: captain._id,
-            location : {
-              ltd: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          });
-        });
+              socket.emit('update-location-captain', {
+                  userId: captain._id,
+                  location: {
+                      ltd: position.coords.latitude,
+                      lng: position.coords.longitude
+                  }
+              })
+          })
       }
-    };
+  }
 
     const locationInterval = setInterval(updateLocation, 10000);
     updateLocation()

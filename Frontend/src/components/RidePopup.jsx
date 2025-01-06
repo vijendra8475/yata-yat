@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const RidePopup = ( props ) => {
@@ -27,8 +27,16 @@ const RidePopup = ( props ) => {
 
      const brokenText1 = async (text) => {
         const [pickupfirstPart, ...pickupsecondPartArray] = text.split(',');
-        return pickupfirstPart.trim();
+        console.log(pickupfirstPart.trim());
      }
+
+    //  brokenText1('hello, world');
+     useEffect(() => {
+       if(props.ride){
+            brokenText1(props.ride.pickup)
+       }
+     }, [props.ride])
+     
     
   return (
     

@@ -46,12 +46,15 @@ const Home = () => {
   const rideAcceptedRef = useRef(null)
   const [rideAccepted, setRideAccepted] = useState(false)
 
+  const [waitForDriver, setWaitForDriver] = useState(false)
+  const waitForDriverRef = useRef(null)
+
   const { socket } = useContext(SocketContext)
   const { user } = useContext(UserDataContext)
 
   useEffect(() => {
     // console.log(user);
-    socket.emit('join', { userType : "user", userId : user._id })
+    socket.emit('join', { userType : "user", userId : user?._id })
   }, [user])
   
 
@@ -267,6 +270,13 @@ const createRide =  async() => {
   })
   console.log(response.data);
 }
+
+socket.on('ride-confirmed', ride => {
+  // setVehicleFound(false)
+  setWaitForDriver(true)
+  // setRide(ride)
+})
+
 
 
 

@@ -13,7 +13,9 @@ const CaptainHome = () => {
   const navigate = useNavigate();
 
   const ridePopUpRef = useRef(null);
-  const [ridePopup, setRidePopup] = useState(true);
+  const [ridePopup, setRidePopup] = useState(false);
+
+  const [ride, setRide] = useState(null)
 
   const confirmRidePopupRef = useRef(null)
   const [confirmRidePopUp, setConfirmRidePopUp] = useState(false)
@@ -23,41 +25,39 @@ const CaptainHome = () => {
   // console.log(captain);
 
   useEffect(() => {
-    socket.emit('join', {
-      userId : captain._id,
-      userType : 'captain'
+      socket.emit('join', {
+        userId: captain?._id,
+        userType: 'captain'
     })
 
     const updateLocation = () => {
-      if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(position => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
 
-            console.log({
-              userId: captain._id,
-                  location: {
-                      ltd: position.coords.latitude,
-                      lng: position.coords.longitude
-                  }
-            });
-            
+                socket.emit('update-location-captain', {
+                    userId: captain._id,
+                    location: {
+                        ltd: position.coords.latitude,
+                        lng: position.coords.longitude
+                    }
+                })
+            })
+        }
+    }
 
-              socket.emit('update-location-captain', {
-                  userId: captain._id,
-                  location: {
-                      ltd: position.coords.latitude,
-                      lng: position.coords.longitude
-                  }
-              })
-          })
-      }
-  }
-
-    const locationInterval = setInterval(updateLocation, 10000);
+    const locationInterval = setInterval(updateLocation, 10000)
     updateLocation()
-    // return () => clearInterval(locationInterval);
-    
-  }, [])
+
+    // return () => clearInterval(locationInterval)
+    }, [])
+
+socket.on('new-ride', (data) => {
+  // console.log(data);
   
+    setRide(data)
+    setRidePopup(true)
+
+})
   
 
 
@@ -98,6 +98,10 @@ const CaptainHome = () => {
     navigate('/captain-login');
   }
 
+
+  const confirmRide = async () => {
+    // const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/confirm`, {})
+  }
 
 
 
@@ -321,7 +325,12 @@ const CaptainHome = () => {
 
 
         <div ref={ridePopUpRef} className='absolute top-0 left-0 flex p-0  bg-black bg-opacity-30 flex-col h-0 w-full items-center justify-between overflow-auto gap-10'>
-          <RidePopup setRidePopup={setRidePopup} setConfirmRidePopUp={setConfirmRidePopUp}/>
+          <RidePopup
+            setRidePopup={setRidePopup}
+            setConfirmRidePopUp={setConfirmRidePopUp}
+            ride={ride}
+            confirmRide={confirmRide}
+          />
         </div>
 
 

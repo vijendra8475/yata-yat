@@ -7,8 +7,8 @@ const { query } = require('express-validator');
 router.get('/get-coordinates',query('address').isString().isLength({min : 3}),authMiddleware.authUser,mapController.getCoordinates);
 
 router.get('/get-distance-time',
-    query('origin').isString().isLength({min : 3}),
-    query('destination').isString().isLength({min : 3}),
+    query('origin').isString().isLength({min : 3}).withMessage('origin names must be atleast 3characters long'),
+    query('destination').isString().isLength({min : 3}).withMessage('destination names must be atleast 3characters long'),
     authMiddleware.authUser,
     mapController.getDistanceTime
 )

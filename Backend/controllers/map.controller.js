@@ -27,6 +27,8 @@ module.exports.getDistanceTime = async (req, res, next) => {
     try {
         const error = validationResult(req);
         if(!error.isEmpty()) {
+            console.log(req);
+            
             return res.status(404).json({ error : error.array() })
         }
 

@@ -163,9 +163,9 @@ const CaptainSignup = () => {
               required
             >
               <option value="" disabled>Select Vehicle Type</option>
-              <option value="Bike">Bike</option>
-              <option value="Car">Car</option>
-              <option value="Auto-Riksha">Auto-Riksha</option>
+              <option value="bike">Bike</option>
+              <option value="car">Car</option>
+              <option value="auto">Auto-Riksha</option>
             </select>
         </div>
 

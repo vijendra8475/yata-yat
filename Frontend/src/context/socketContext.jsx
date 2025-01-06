@@ -1,3 +1,4 @@
+
 import React, { createContext, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
@@ -17,6 +18,8 @@ const SocketProvider = ({ children }) => {
         });
 
     }, []);
+
+
 
     return (
         <SocketContext.Provider value={{ socket }}>

@@ -1,20 +1,22 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const WaitForDriver = (props) => {
     
     const { ride } = props;
     const [captain, setCaptain] = useState({})
 
-    if(ride && ride.captain){
-        axios.post(`${import.meta.env.VITE_BASE_URL}/captains/getCaptainInfo`,{
-            id : ride?.captain
-        }).then(response => {
-            if (response.status === 200) {
-                setCaptain(response.data.captain);
-            }
-        })
-    }
+    useEffect(() => {
+        if(ride && ride.captain){
+            axios.post(`${import.meta.env.VITE_BASE_URL}/captains/getCaptainInfo`,{
+                id : ride?.captain
+            }).then(response => {
+                if (response.status === 200) {
+                    setCaptain(response.data.captain);
+                }
+            })
+        }
+    }, [ride]);
 
     // console.log(captain);
     
@@ -22,7 +24,7 @@ const WaitForDriver = (props) => {
   return (
     
     <div className='flex h-full w-full items-center justify-between overflow-auto'>
-    <div className='flex flex-col p-5 bg-gray-100 rounded-t-3xl w-full h-full g-4'>
+    <div className='flex flex-col p-5 bg-gray-100 rounded-t-3xl w-full h-full g-4 items-center justify-center'>
         <div className="h-1/5 border-b-2 w-full bg-white rounded-t-xl flex flex-col items-center py-4 gap-5 justify-center">
                     <div className="line w-32 h-2 bg-gray-400 rounded-full"></div>
                     <h2 className='text-black font-semibold text-4xl '>Ride Confirmed</h2>
@@ -37,8 +39,9 @@ const WaitForDriver = (props) => {
                     <img className=' relative right-14 h w-2/5 h-full object-cover object-center' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1591275848/assets/57/348090-0115-46b7-96b3-b9085e736876/original/Comfort_Vehicle_list.png" alt="" />
                 </div>
                 <div className=" rounded-xl flex flex-col items-center pt-2 px-8 text-center gap-4">
-                    <h1 className='font-bold text-5xl text-center w-full flex items-center justify-center gap-4'> {captain?.fullname?.firstname} <div className="dot h-2 w-2 rounded-full bg-black"></div> <div className='flex items-center gap-4'><i className="ri-star-fill text-4xl"></i> 4.8</div> </h1>
-                    <h1 className='font-semibold text-3xl text-center w-full flex items-center justify-center gap-4'> {captain?.fullname?.firstname} is your riding captain </h1>
+                    {/* <h1 className='font-semibold text-3xl font-mono text-center w-full flex items-center justify-center gap-4 capitalize'> {captain?.fullname?.firstname} <div className="dot h-2 w-2 rounded-full bg-black"></div> <div className='flex items-center gap-4'><i className="ri-star-fill text-4xl"></i> 4.8</div> </h1> */}
+                    <h1 className='font-semibold text-2xl text-center w-full flex items-center justify-center gap-1'> <pre className='capitalize font-mono'>{captain?.fullname?.firstname}</pre> is your riding captain </h1>
+                    <h1 className='font-semibold text-xl text-center w-full flex items-center justify-center gap-4'> Ride OTP : {ride?.otp} </h1>
                 </div>
             </div>
 

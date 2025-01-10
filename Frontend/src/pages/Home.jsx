@@ -286,6 +286,12 @@ socket.on('ride-confirmed', ride => {
   setRideAccepted(true)
 })
 
+socket.on('ride-started', ride => {
+  console.log("ride")
+  setWaitForDriver(false)
+  navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
+})
+
 
 useEffect(() => {
   console.log("Ride : " , ride);

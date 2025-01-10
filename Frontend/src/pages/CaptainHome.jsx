@@ -365,6 +365,7 @@ socket.on('new-ride', (data) => {
 
         <div ref={confirmRidePopupRef} className='absolute top-0 left-0 flex p-0 flex-col h-0 w-full items-center justify-between overflow-auto gap-10'>
           <ConfirmRidePopUp 
+            ride={ride}
             confirmRidePopupRef={confirmRidePopupRef} 
             setRidePopup={setRidePopup} 
             setConfirmRidePopup={setConfirmRidePopUp} 

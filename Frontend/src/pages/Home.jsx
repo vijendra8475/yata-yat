@@ -388,7 +388,9 @@ useEffect(() => {
 
             <div ref={rideAcceptedRef} className=' w-full h-0  absolute top-0 left-0  bg-white flex flex-col items-center justify-center gap-4 py-6'>
               <div className="flex flex-col items-center justify-center h-full w-2/3">
-              <WaitForDriver />
+              <WaitForDriver 
+                ride={ride}
+              />
               </div>
             </div>
 

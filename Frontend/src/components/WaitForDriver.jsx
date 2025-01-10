@@ -1,6 +1,24 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
 
-const WaitForDriver = () => {
+const WaitForDriver = (props) => {
+    
+    const { ride } = props;
+    const [captain, setCaptain] = useState({})
+
+    if(ride && ride.captain){
+        axios.post(`${import.meta.env.VITE_BASE_URL}/captains/getCaptainInfo`,{
+            id : ride?.captain
+        }).then(response => {
+            if (response.status === 200) {
+                setCaptain(response.data.captain);
+            }
+        })
+    }
+
+    // console.log(captain);
+    
+
   return (
     
     <div className='flex h-full w-full items-center justify-between overflow-auto'>
@@ -19,16 +37,16 @@ const WaitForDriver = () => {
                     <img className=' relative right-14 h w-2/5 h-full object-cover object-center' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1591275848/assets/57/348090-0115-46b7-96b3-b9085e736876/original/Comfort_Vehicle_list.png" alt="" />
                 </div>
                 <div className=" rounded-xl flex flex-col items-center pt-2 px-8 text-center gap-4">
-                    <h1 className='font-bold text-5xl text-center w-full flex items-center justify-center gap-4'>SANTH <div className="dot h-2 w-2 rounded-full bg-black"></div> <div className='flex items-center gap-4'><i className="ri-star-fill text-4xl"></i> 4.8</div> </h1>
-                    <h1 className='font-semibold text-3xl text-center w-full flex items-center justify-center gap-4'> SANTH is your riding captain </h1>
+                    <h1 className='font-bold text-5xl text-center w-full flex items-center justify-center gap-4'> {captain?.fullname?.firstname} <div className="dot h-2 w-2 rounded-full bg-black"></div> <div className='flex items-center gap-4'><i className="ri-star-fill text-4xl"></i> 4.8</div> </h1>
+                    <h1 className='font-semibold text-3xl text-center w-full flex items-center justify-center gap-4'> {captain?.fullname?.firstname} is your riding captain </h1>
                 </div>
             </div>
 
-            <div className="right bg-white w-1/2 h-full p-10 flex flex-col items-center justify-around overflow-auto gap-10">
+            <div className="right bg-white w-1/2 h-full px-10 p-4 flex flex-col items-center justify-around overflow-auto gap-2">
                 {/* <h1 className='text-5xl py-4 px-8 text-center text-gray-800 font-semibold font-mono'>Vehicle Details</h1> */}
-                <div className="top py-4 px-8  w-full">
-                    <h1 className='font-mono text-5xl font-semibold text-center'>KA15 AK00-0</h1>
-                    <h3 className='font-semibold text-3xl text-slate-800 text-center'>White Suzuki S-Presso LXI</h3>
+                <div className="top py-2 px-8  w-full">
+                    <h1 className='font-mono text-4xl font-semibold text-center'>{captain?.vehicle?.plate}</h1>
+                    <h3 className='font-semibold text-xl text-slate-800 text-center'>White Suzuki S-Presso LXI</h3>
                 </div>
 
                 <form action="" className='w-full py-2 px-4 flex items-center gap-4 border rounded-3xl bg-gray-100'>
@@ -39,30 +57,30 @@ const WaitForDriver = () => {
 
                 <div className="options flex items-center justify-evenly w-full">
                     <div className="icon-box flex flex-col items-center gap-2">
-                        <div className="circle h-20 w-20 rounded-full bg-slate-200 flex items-center justify-center text-blue-600 hover:text-black">
-                            <i className="ri-shield-star-fill text-5xl "></i>
+                        <div className="circle h-12 w-12 rounded-full bg-slate-200 flex items-center justify-center text-blue-600 hover:bg-black hover:text-white duration-300">
+                            <i className="ri-shield-star-fill text-3xl "></i>
                         </div>
-                        <h2 className='text-2xl font-semibold'>Safety</h2>
+                        <h2 className='text-xl font-base font-mono'>Secured</h2>
                     </div>
                     <div className="icon-box flex flex-col items-center gap-2">
-                        <div className="circle h-20 w-20 rounded-full bg-slate-200 flex items-center justify-center text-blue-600 hover:text-black">
-                            <i className="ri-map-pin-2-line text-5xl"></i>
+                        <div className="circle h-12 w-12 rounded-full bg-slate-200 flex items-center justify-center text-blue-600 hover:bg-black hover:text-white duration-300">
+                            <i className="ri-map-pin-2-line text-3xl"></i>
                         </div>
-                        <h2 className='text-2xl font-semibold'>Share my trip</h2>
+                        <h2 className='text-xl font-base font-mono'>Share my trip</h2>
                     </div>
                     <div className="icon-box flex flex-col items-center gap-2">
-                        <div className="circle h-20 w-20 rounded-full bg-slate-200 flex items-center justify-center text-blue-600 hover:text-black">
-                            <i className="ri-phone-fill text-5xl "></i>
+                        <div className="circle h-12 w-12 rounded-full bg-slate-200 flex items-center justify-center text-blue-600 hover:bg-black hover:text-white duration-300">
+                            <i className="ri-phone-fill text-3xl "></i>
                         </div>
-                        <h2 className='text-2xl font-semibold'>Safety</h2>
+                        <h2 className='text-xl font-base font-mono'>Safety</h2>
                     </div>
                 </div>
 
                 <div className="rounded-xl from flex items-center py-4 px-8 bg-gray-100 gap-12">
                     <h1 className='h-16 w-16 bg-gray-300 rounded-full text-3xl flex items-center justify-center'><i className="ri-map-pin-2-fill"></i></h1>
                     <div className="info flex flex-col items-start w-4/5">
-                        <h2 className='text-3xl font-bold text-gray-800'>NTPC Korba</h2>
-                        <h3 className='text-lg font-semibold text-gray-600 leading-6'>Housing Board colony Jamnipali NTPC, Darri block, Korba, Chhattisgarh</h3>
+                        <h2 className='text-2xl font-semibold text-gray-800'>{ride?.pickup}</h2>
+                        {/* <h3 className='text-lg font-semibold text-gray-600 leading-6'>Housing Board colony Jamnipali NTPC, Darri block, Korba, Chhattisgarh</h3> */}
                     </div>
                 </div>
 

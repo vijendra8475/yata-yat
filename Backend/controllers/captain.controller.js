@@ -74,3 +74,9 @@ module.exports.logoutCaptain = async (req, res, next) => {
     res.clearCookie('token');
     res.status(200).json({ message: "Captain Logged Out" });
 }
+
+module.exports.gettingCaptainProfile = async (req, res, next) => {
+    const captain = await captainModel.findById(req.body.id);
+
+    res.status(200).json({ captain : captain });
+}

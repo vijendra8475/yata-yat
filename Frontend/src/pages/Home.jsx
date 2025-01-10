@@ -52,11 +52,19 @@ const Home = () => {
   const { socket } = useContext(SocketContext)
   const { user } = useContext(UserDataContext)
 
+  const [ ride, setRide ] = useState(null)
+
+  useEffect(() => {
+    if(!user) {
+      navigate('/login')
+    }
+  }, [user])
+  
+
   useEffect(() => {
     // console.log(user);
     socket.emit('join', { userType : "user", userId : user?._id })
   }, [user])
-  
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -272,9 +280,10 @@ const createRide =  async() => {
 }
 
 socket.on('ride-confirmed', ride => {
-  // setVehicleFound(false)
+  setVehicleFound(false)
   setWaitForDriver(true)
-  // setRide(ride)
+  setRide(ride)
+  setRideAccepted(true)
 })
 
 

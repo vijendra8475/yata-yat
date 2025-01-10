@@ -28,32 +28,35 @@ const CaptainSignup = () => {
     const submitHandler = async (event) => {
         event.preventDefault();
         const captainData = {
-            fullname : {
-                firstname : firstname,
-                lastname : lastname
+            fullname: {
+                firstname: firstname,
+                lastname: lastname
             },
-            email : email,
-            password : password,
-            vehicle : {
-              color : vehicleColor,
-              plate : vehiclePlate,
-              capacity : vehicleCapacity,
-              vehicleType :  vehicleType
+            email: email,
+            password: password,
+            vehicle: {
+                color: vehicleColor,
+                plate: vehiclePlate,
+                capacity: vehicleCapacity,
+                vehicleType: vehicleType
             }
         };
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData );
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData);
 
-
-        if(response.status === 201){
-          const data = response.data;
-          setCaptain(data.captain)
-          localStorage.setItem('token',data.token)
-          navigate('/captain-home');
-          alert("Registration Successfull");
+            if (response.status === 201) {
+                const data = response.data;
+                setCaptain(data.captain);
+                localStorage.setItem('token', data.token);
+                navigate('/captain-home');
+                alert("Registration Successful");
+            }
+        } catch (error) {
+            console.error("Error registering captain:", error);
+            alert("Failed to register captain. Please try again.");
         }
 
-  
         setEmail('');
         setFirstname('');
         setPassword('');

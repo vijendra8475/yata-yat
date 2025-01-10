@@ -7,10 +7,12 @@ import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import { useNavigate } from 'react-router-dom'
 import CaptainDetails from '../components/CaptainDetails'
 import { SocketContext } from '../context/socketContext'
+import axios from 'axios'
 
 const CaptainHome = () => {
 
   const navigate = useNavigate();
+  const [capInfo, setCapInfo] = useState({})
 
   const ridePopUpRef = useRef(null);
   const [ridePopup, setRidePopup] = useState(false);
@@ -23,6 +25,12 @@ const CaptainHome = () => {
   const { socket } = useContext(SocketContext);
   const { captain } = useContext( CaptainDataContext )
   // console.log(captain);
+  
+  // console.log(captain);
+
+  if(!captain) {
+    navigate('/captain-login')
+  }
 
   useEffect(() => {
       socket.emit('join', {
@@ -31,9 +39,17 @@ const CaptainHome = () => {
     })
 
     const updateLocation = () => {
-        if(captain){
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
+
+              console.log({
+                userId: captain._id,
+                location: {
+                    ltd: position.coords.latitude,
+                    lng: position.coords.longitude
+                  }
+              });
+              
 
                 socket.emit('update-location-captain', {
                     userId: captain._id,
@@ -44,14 +60,9 @@ const CaptainHome = () => {
                   })
               })
           }
-        }
-        else{
-          console.log(captain);
-          
-        }
     }
 
-    const locationInterval = setInterval(updateLocation, 10000)
+    // const locationInterval = setInterval(updateLocation, 10000)
     updateLocation()
 
     // return () => clearInterval(locationInterval)
@@ -106,7 +117,19 @@ socket.on('new-ride', (data) => {
 
 
   const confirmRide = async () => {
-    // const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/confirm`, {})
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+      rideId : ride?._id,
+      captainId : captain?._id
+    },
+    {
+      headers : {
+        Authorization : `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+  )
+
+    // setRidePopup(false);
+    // setConfirmRidePopUp(false);
   }
 
 
@@ -341,7 +364,11 @@ socket.on('new-ride', (data) => {
 
 
         <div ref={confirmRidePopupRef} className='absolute top-0 left-0 flex p-0 flex-col h-0 w-full items-center justify-between overflow-auto gap-10'>
-          <ConfirmRidePopUp confirmRidePopupRef={confirmRidePopupRef} setRidePopup={setRidePopup} setConfirmRidePopup={setConfirmRidePopUp} />
+          <ConfirmRidePopUp 
+            confirmRidePopupRef={confirmRidePopupRef} 
+            setRidePopup={setRidePopup} 
+            setConfirmRidePopup={setConfirmRidePopUp} 
+          />
         </div>
 
       </div>

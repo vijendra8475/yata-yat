@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const RidePopup = ( props ) => {
-    console.log(props);
+    // console.log(props);
 
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
@@ -25,18 +25,32 @@ const RidePopup = ( props ) => {
      }
      getDistance();
 
+     const [pickup1, setPickup1] = useState('')
+     const [pickup2, setPickup2] = useState('');
+
+     const [destination1, setDestination1] = useState('')
+     const [destination2, setDestination2] = useState('')
+
+     useEffect(() => {
+        if(props.ride) {
+            setPickup1(brokenText1(props.ride.pickup));
+            setDestination1(brokenText1(props.ride.destination));
+
+            console.log(pickup1, destination1);
+        }
+        else{
+            setPickup1('');
+            setDestination1('');
+        }
+     }, [props])
+     
+
      const brokenText1 = async (text) => {
         const [pickupfirstPart, ...pickupsecondPartArray] = text.split(',');
-        console.log(pickupfirstPart.trim());
+        return pickupfirstPart.trim()
      }
 
     //  brokenText1('hello, world');
-     useEffect(() => {
-       if(props.ride){
-            brokenText1(props.ride.pickup)
-       }
-     }, [props.ride])
-     
     
   return (
     
@@ -61,15 +75,15 @@ const RidePopup = ( props ) => {
                         <h1 className='h-16 w-16 bg-gray-300 rounded-full text-3xl flex items-center justify-center'><i className="ri-map-pin-2-fill"></i></h1>
                         <div className="info flex flex-col items-start w-4/5">
                             <h2 className='text-xl font-semibold text-gray-800'>{ props.ride?.pickup}</h2>
-                            <h3 className='text-base font-semibold text-gray-600 leading-5'>Housing Board colony Jamnipali NTPC, Darri block, Korba, Chhattisgarh</h3>
+                            {/* <h3 className='text-base font-semibold text-gray-600 leading-5'>Housing Board colony Jamnipali NTPC, Darri block, Korba, Chhattisgarh</h3> */}
                         </div>
                     </div>
 
                     <div className="rounded-xl from flex items-center py-4 px-8 bg-gray-50 gap-12">
                         <h1 className='h-16 w-16 bg-gray-300 rounded-full text-3xl flex items-center justify-center'><i className="ri-checkbox-blank-fill"></i></h1>
                         <div className="info flex flex-col items-start w-4/5">
-                            <h2 className='text-xl font-semibold text-gray-800'>{ props.ride?.destination}</h2>
-                            <h3 className='text-base font-semibold text-gray-600 leading-5'>TP Nagar, Korba block, Korba, Chhattisgarh</h3>
+                            <h2 className='text-xl font-semibold text-gray-800'>{ props.ride?.destination }</h2>
+                            {/* <h3 className='text-base font-semibold text-gray-600 leading-5'>TP Nagar, Korba block, Korba, Chhattisgarh</h3> */}
                         </div>
                     </div>
 

@@ -287,6 +287,12 @@ socket.on('ride-confirmed', ride => {
 })
 
 
+useEffect(() => {
+  console.log("Ride : " , ride);
+  
+}, [ride])
+
+
 
 
   return (

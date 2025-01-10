@@ -31,24 +31,24 @@ const RidePopup = ( props ) => {
      const [destination1, setDestination1] = useState('')
      const [destination2, setDestination2] = useState('')
 
-     useEffect(() => {
-        if(props.ride) {
-            setPickup1(brokenText1(props.ride.pickup));
-            setDestination1(brokenText1(props.ride.destination));
+    //  useEffect(() => {
+    //     if(props.ride) {
+    //         setPickup1(brokenText1(props.ride.pickup));
+    //         setDestination1(brokenText1(props.ride.destination));
 
-            console.log(pickup1, destination1);
-        }
-        else{
-            setPickup1('');
-            setDestination1('');
-        }
-     }, [props])
+    //         console.log(pickup1, destination1);
+    //     }
+    //     else{
+    //         setPickup1('');
+    //         setDestination1('');
+    //     }
+    //  }, [props])
      
 
-     const brokenText1 = async (text) => {
-        const [pickupfirstPart, ...pickupsecondPartArray] = text.split(',');
-        return pickupfirstPart.trim()
-     }
+    //  const brokenText1 = async (text) => {
+    //     const [pickupfirstPart, ...pickupsecondPartArray] = text.split(',');
+    //     return pickupfirstPart.trim()
+    //  }
 
     //  brokenText1('hello, world');
     

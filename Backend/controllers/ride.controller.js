@@ -87,14 +87,14 @@ module.exports.confirmRide = async (req, res) => {
 }
 
 
-module.exports.startRide = async(req, res) => {
+module.exports.startRide = async (req, res) => {
     const errors = validationResult(req);
-    if(errors) {
-        return res.status(400).json({ errors : errors.array() });
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
 
-    const { rideId, otp } = req.body;
-    
+    const { rideId, otp } = req.query;
+
     try {
         const ride = await rideService.startRide({ rideId, otp, captain: req.captain });
 

@@ -12,7 +12,7 @@ import axios from 'axios'
 import { SocketContext } from '../context/socketContext';
 import { useContext } from 'react';
 import { UserDataContext } from '../context/userContext';
-// import LiveTracking from '../components/LiveTracking';
+// import LiveTracking from '../components/Livetracking'
 
 
 const Home = () => {
@@ -292,6 +292,10 @@ socket.on('ride-started', ride => {
   navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
 })
 
+socket.on('ride-end', ride => {
+  navigate('/home')
+})
+
 
 useEffect(() => {
   console.log("Ride : " , ride);
@@ -311,6 +315,8 @@ useEffect(() => {
           src='https://simonpan.com/wp-content/themes/sp_portfolio/assets/uber-challenge.jpg'
           alt="" 
         />
+        {/* <LiveTracking /> */}
+        
       </div>
       <div className=' flex flex-col justify-end h-screen w-full absolute top-0 left-0 rounded-lg'>
         <div className='h-[23%] p-6 bg-white relative'>

@@ -32,4 +32,11 @@ router.get('/start-ride',
     query('otp').isString().isLength({ min : 4, max : 4}).withMessage('Invalid OTP'),
     rideController.startRide
 )
+
+router.post('/end-ride',
+    authMiddleware.authCaptain,
+    body('rideId').isMongoId().withMessage('Invalid Ride Id'),
+    rideController.endRide
+)
+
 module.exports = router;

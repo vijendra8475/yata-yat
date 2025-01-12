@@ -1,31 +1,34 @@
-import React, { useRef, useState } from 'react'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import FinishRide from '../components/FinishRide'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom' // Added useLocation
+import { useEffect, useContext } from 'react'
+import { SocketContext } from '../context/socketContext'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+const Riding = () => {
+    
 
-
-const CaptainRiding = () => {
-
-    const finishRideRef = useRef(null)
-    const [finishRide, setFinishRide] = useState(false)
     const location = useLocation();
-    const rideData = location.state?.ride;
+    const { ride } = location.state || {}
+    const { socket } = useContext(SocketContext)
+
+    const navigate = useNavigate();
+    socket.on('ride-ended',() => {
+        navigate('/home')
+    })
 
 
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
 
      const getDistance = async () => {
-        if(rideData) {
+        if(ride) {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-distance-time`,{
                 headers : {
                     Authorization : `bearer ${localStorage.getItem('token')}`
                 },
                 params : {
-                    origin : rideData?.pickup,
-                    destination : rideData?.destination
+                    origin : ride?.pickup,
+                    destination : ride?.destination
                 }
             });
 
@@ -34,23 +37,6 @@ const CaptainRiding = () => {
         }
      }
      getDistance();
-
-    useGSAP(() => {
-        if(finishRide){
-          gsap.to(finishRideRef.current,{
-            height : '100%',
-            padding : '2.5rem'
-          })
-        }
-        else{
-          gsap.to(finishRideRef.current,{
-            height : '0%',
-            padding : '0'
-          })
-        }
-    },[finishRide])
-
-
   return (
     <div className='h-screen overflow-hidden flex justify-between flex-col p-8 w-full bg-[url(https://simonpan.com/wp-content/themes/sp_portfolio/assets/uber-challenge.jpg)]'>
         <div className='w-full h-10'><img className='w-24 mb-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" /></div>
@@ -70,28 +56,18 @@ const CaptainRiding = () => {
                         <div className='flex flex-col items-start gap-2'>
                             <div className="box py-2 px-4 text-white rounded-3xl bg-black flex items-center gap-2 font-semibold">
                                 <i className="ri-map-pin-2-line text-2xl font-normal"></i>
-                                {rideData?.destination}
+                                { ride?.destination }
                             </div>
                             <div className='px-4'>
                                 <h2 className='text-lg font-semibold'>{distance} away</h2>
                                 <h2 className='text-sm font-medium'>Approx {duration} to reach destination</h2>
                             </div>
                         </div>
-                        <button onClick={() => setFinishRide(true)} className="py-4 bg-green-500 text-white px-8 rounded-xl font-semibold text-xl">Complete Ride</button>
-
                     </div>
                 </div>
 
 
             </div>
-
-                <div ref={finishRideRef} className='absolute h-0 w-full flex items-center justify-center'>
-                    <FinishRide 
-                      setFinishRide={setFinishRide} 
-                      rideData={rideData}
-                    />
-                </div>
-
             </div>
 
 
@@ -99,4 +75,4 @@ const CaptainRiding = () => {
   )
 }
 
-export default CaptainRiding
+export default Riding

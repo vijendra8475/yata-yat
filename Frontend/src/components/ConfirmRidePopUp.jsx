@@ -23,9 +23,7 @@ const ConfirmRidePopUp = ( props ) => {
         })
 
         if (response.status === 200) {
-            // props.setConfirmRidePopup(false)
-            // props.setRidePopupPanel(false)
-            navigate('/riding', { state: { ride: props.ride } })
+            navigate('/captain-riding', { state: { ride: props.ride } })
         }
     }
 

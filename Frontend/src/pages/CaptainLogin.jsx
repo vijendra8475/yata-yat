@@ -40,7 +40,7 @@ const CaptainLogin = () => {
 
       
       <div>
-      <img className='w-24 mb-10' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+      <img className='w-24 mb-10' src="https://prorideeld.com/wp-content/uploads/2023/11/PRO-RIDE-LOGO-COLOR.png" alt="" />
         <h1 className='mb-2 w-full text-center text-4xl font-bold font-mono'>Login as Captain</h1>
       <form action="" onSubmit={(event) => { submitHandler(event) } }>
         <h3 className='text-xl mb-2'>What's your E-mail</h3>

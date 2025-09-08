@@ -16,7 +16,7 @@ const CaptainDetails = () => {
                   <div className='semibold text-yellow-400 flex items-center'><i className="ri-star-s-fill text-4xl"></i> <h2 className='text-xl text-black font-semibold'>- 4.8</h2></div>
                 </div>
                 <div  className='flex flex-col'>
-                  <h1 className='text-2xl font-bold'>$290</h1>
+                  <h1 className='text-2xl font-bold'>₹290</h1>
                   <h2 className='text-lg font-semibold text-gray-400'>Earned</h2>
                 </div>
               </div>

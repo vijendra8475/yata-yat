@@ -1,0 +1,24 @@
+# 1. Create a render.yaml in your Backend directory
+cat > render.yaml << EOL
+services:
+  - type: web
+    name: uber-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: DB_CONNECT
+        value: your_mongodb_uri
+      - key: JWT_SECRET
+        value: your_secret
+      - key: GOOGLE_MAPS_API
+        value: your_api_key
+EOL
+
+# 2. Deploy to Render
+# - Go to render.com
+# - Connect your GitHub repository
+# - Select the Backend directory
+# - Click "Create Web Service"
